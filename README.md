@@ -9,6 +9,7 @@ Parts list:
 * Raspberry Pi Model 3B
 * Raspberry Pi Camera Module V2
 * Raspberry Pi 7" Touchscreen
+* MicroSD Card with Raspbian
 * Canon Selphy CP1200 Photo Printer
 * USB Keyboard
 * USB Mouse
