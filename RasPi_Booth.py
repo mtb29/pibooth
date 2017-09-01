@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # Raspberry Pi photobooth with printer (Canon SELPHY CP1200) and touchscreen (Using Kivy)
 # Captures 3 images and creates them into a collage, and (optionally) prints 2 copies per page
-# Version: 0.2
+# Version: 0.3
 # By: Matthew Brady, Andrea Lynn
 
 import picamera
@@ -138,7 +138,7 @@ class RasPi_Booth(App):
         global collageCreated
 		global printerTime
 		global printerBusy
-        collageTime += 3
+        	collageTime += 3
 		printerTime += 3
         
 		if printerBusy == False:
