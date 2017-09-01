@@ -136,10 +136,10 @@ class RasPi_Booth(App):
     def photoUpdate(self, instance):
         global collageTime
         global collageCreated
-		global printerTime
-		global printerBusy
-        	collageTime += 3
-		printerTime += 3
+	global printerTime
+	global printerBusy
+        collageTime += 3
+	printerTime += 3
         
 		if printerBusy == False:
 			if collageCreated == True:
