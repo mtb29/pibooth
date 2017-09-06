@@ -15,6 +15,7 @@ Parts list:
 * USB Mouse
 * 2x 2.5A USB Power Supplies
 
+
 Software required:
 * Rasbian
 * CUPS
