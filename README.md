@@ -14,3 +14,9 @@ Parts list:
 * USB Keyboard
 * USB Mouse
 * 2x 2.5A USB Power Supplies
+
+Software required:
+* Rasbian
+* CUPS
+* Kivy
+* Python3
