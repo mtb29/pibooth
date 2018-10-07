@@ -1,4 +1,4 @@
-# pibooth
+# Raspberry Pi Photobooth
 
 A custom built photobooth created using a raspberry pi.
 
