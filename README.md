@@ -21,3 +21,5 @@ Software required:
 * CUPS
 * Kivy
 * Python3
+
+![PiBooth](https://github.com/mtb29/pibooth/blob/master/pibooth.jpg?raw=true)
