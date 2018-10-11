@@ -1,9 +1,10 @@
 #! /usr/bin/python3
 # Raspberry Pi photobooth with printer (Canon SELPHY CP1200) and touchscreen (Using Kivy)
 # Captures 3 images and creates them into a collage, and (optionally) prints 2 copies per page
-# Version: 0.4
-# By: Matthew Brady, Andrea Lynn
-# Enclosure by: Nick Natale
+# Version: 0.4b
+# Programmar: Matthew Brady
+# Designer/Artist: Andrea Brady
+# Woodworker: Nick Natale
 
 import picamera
 import cups
@@ -35,7 +36,7 @@ collageTimeout = 25 # How long the latest collage will display on the screen
 logoName = "logo.jpg" # Name of the logo photo
 enablePrinter = True # Set to False to disable the printer functionality + display
 enablePhotoPrint = False # Set to True to enable printing each individual picture
-enableTwoCopies = True # Set to True to enable printing two copies of the collage
+enableTwoCopies = False # Set to True to enable printing two copies of the collage
 printerName = "CP1200" # Set to the name you configured the printer in on the CUPS server
 printerBusy = False # Script processing
 printerTime = 0 # Script processing
@@ -52,82 +53,84 @@ logging.basicConfig(format='[%(asctime)s] %(message)s', datefmt='%m/%d/%Y %I:%M:
 
 # Function to capture and save photographs.
 def takePhotos(obj):
-	logging.info('Function takePhotos was called.')
+    logging.info('Function takePhotos was called.')
 	
     if printerBusy == False:
-		camera = picamera.PiCamera()
-		camera.resolution = (1280, 720)
-		camera.start_preview()
-		sleep(5)
-		camera.capture('1.jpg')
-		photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
-		copyfile('1.jpg', saveDir + "/" + photoName + photoExt)
-		camera.start_preview()
-		sleep(5)
-		camera.capture('2.jpg')
-		photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
-		copyfile('2.jpg', saveDir + "/" + photoName + photoExt)
-		camera.start_preview()
-		sleep(5)
-		camera.capture('3.jpg')
-		photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
-		copyfile('3.jpg', saveDir + "/" + photoName + photoExt)
-		camera.close()
-		createCollage(obj)
-		logging.info('Function takePhotos completed.')
+        camera = picamera.PiCamera()
+        camera.resolution = (1280, 720)
+        camera.start_preview()
+        sleep(5)
+        camera.capture('1.jpg')
+        photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
+        copyfile('1.jpg', saveDir + "/" + photoName + photoExt)
+        camera.start_preview()
+        sleep(5)
+        camera.capture('2.jpg')
+        photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
+        copyfile('2.jpg', saveDir + "/" + photoName + photoExt)
+        camera.start_preview()
+        sleep(5)
+        camera.capture('3.jpg')
+        photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
+        copyfile('3.jpg', saveDir + "/" + photoName + photoExt)
+        camera.close()
+        createCollage(obj)
+        logging.info('Function takePhotos completed.')
  
 # Function to create the collage 
 def createCollage(obj):
-	logging.info('Function createCollage was called.')
+    logging.info('Function createCollage was called.')
     #subprocess.call(["montage", '1.jpg', '1.jpg', '2.jpg', '2.jpg', '3.jpg', '3.jpg', "-tile", "2x3", "-geometry", "+2+2", collageName])
     #subprocess.call(["montage", '1.jpg', '1.jpg', '2.jpg', '2.jpg', '3.jpg', '3.jpg', "-tile", "2x3", "-geometry", "640x640+2+2", collageNameSmall])
-	subprocess.call(["montage", frameName, '1.jpg', '2.jpg', '3.jpg', "-tile", "2x2", "-geometry", "+2+2", "-background", "black", collageName])
-    subprocess.call(["montage", frameName, '1.jpg', '2.jpg', '3.jpg', "-tile", "2x2", "-geometry", "640x640+2+2", "-background", "black", collageNameSmall])
+    subprocess.call(["montage", frameName, '1.jpg', '2.jpg', '3.jpg', "-tile", "2x2", "-geometry", "+2+2", "-background", "white", collageName])
+    subprocess.call(["montage", frameName, '1.jpg', '2.jpg', '3.jpg', "-tile", "2x2", "-geometry", "720x720+2+2", "-background", "white", collageNameSmall])
     global collageCreated
     collageCreated = True
     global collageTime
     collageTime = 0
     photoName = time.strftime("%Y_%m_%d_%H:%M:%S")
     copyfile(collageName, saveDir + "/" + photoName + "_collage" + photoExt)
-	logging.info('Function createCollage completed.')
+    logging.info('Function createCollage completed.')
 
 # Function to send it to the printer for printing (Using CUPS)          
 def printCollage(obj):
-	logging.info('Function printCollage was called.')
+    logging.info('Function printCollage was called.')
+    global printerBusy
+    
     if printerBusy == False:
-		conn = cups.Connection()
-		cups.setUser(cupsUser)
-		global printerTime
-		global printerTimeout
-		global printerBusy
-		printerTime = 0
-		printerBusy = True
+        conn = cups.Connection()
+        cups.setUser(cupsUser)
+        global printerTime
+        global printerTimeout
+        printerTime = 0
+        printerBusy = True
 		
-		if enableTwoCopies == False:
-			conn.printFile(printerName, collageName, "RasPi_Booth", {'fit-to-page':'True'})
-			printerTimeout = 60
-		else:
-			conn.printFile(printerName, collageName, "RasPi_Booth", {'fit-to-page':'True'})
-			conn.printFile(printerName, collageName, "RasPi_Booth", {'fit-to-page':'True'})
-			printerTimeout = 120
-		logging.info('Function printCollage completed.')
+        if enableTwoCopies == False:
+            conn.printFile(printerName, collageName, "RasPi_Booth", {'fit-to-page':'True'})
+            printerTimeout = 60
+        else:
+            conn.printFile(printerName, collageName, "RasPi_Booth", {'fit-to-page':'True', 'copies':'2'})
+            printerTimeout = 120
+            
+        logging.info('Function printCollage completed.')
 
 # Function to print each individual photo.
 def printPhotos(obj):
-	logging.info('Function printPhotos was called.')
+    logging.info('Function printPhotos was called.')
+    global printerBusy
+    
     if printerBusy == False:
-		conn = cups.Connection()
-		cups.setUser(cupsUser)
-		conn.printFile(printerName, "1.jpg", "RasPi_Booth", {'fit-to-page':'True'})
-		conn.printFile(printerName, "2.jpg", "RasPi_Booth", {'fit-to-page':'True'})
-		conn.printFile(printerName, "3.jpg", "RasPi_Booth", {'fit-to-page':'True'})
-		global printerTime
-		global printerTimeout
-		global printerBusy
-		printerTime = 0
-		printerTimeout = 180
-		printerBusy = True
-		logging.info('Function printPhotos completed.')
+        conn = cups.Connection()
+        cups.setUser(cupsUser)
+        conn.printFile(printerName, "1.jpg", "RasPi_Booth", {'fit-to-page':'True'})
+        conn.printFile(printerName, "2.jpg", "RasPi_Booth", {'fit-to-page':'True'})
+        conn.printFile(printerName, "3.jpg", "RasPi_Booth", {'fit-to-page':'True'})
+        global printerTime
+        global printerTimeout
+        printerTime = 0
+        printerTimeout = 180
+        printerBusy = True
+        logging.info('Function printPhotos completed.')
 
 # Main code of the application
 class RasPi_Booth(App):
@@ -155,38 +158,38 @@ class RasPi_Booth(App):
         if enablePrinter == True:
             photobox.add_widget(printCollageButton)
 			
-		if enablePhotoPrint == True:
-			photobox.add_widget(printPhotosButton)
+        if enablePhotoPrint == True:
+            photobox.add_widget(printPhotosButton)
 
         return photobox
         
         
     # Function to update the display to the latest collage photo/logo on timeout/printer busy
     def photoUpdate(self, instance):
-    global collageTime
-    global collageCreated
-	global printerTime
-	global printerBusy
-    collageTime += 3
-	printerTime += 3
+        global collageTime
+        global collageCreated
+        global printerTime
+        global printerBusy
+        collageTime += 3
+        printerTime += 3
         
-		if printerBusy == False:
-			if collageCreated == True:
-				if self.photo.source != collageNameSmall:
-					self.photo.source = collageNameSmall
-				else:
-					if collageTime >= collageTimeout:
-						self.photo.source = logoName
-						collageCreated = False
-			elif collageCreated == False:
-				if self.photo.source != logoName:
-					self.photo.source = logoName	
-		elif printerBusy == True:
-			if self.photo.source != printingName:
-				self.photo.source = printingName
-			if printerTime >= printerTimeout:
-				self.photo.source = logoName
-				printerBusy = False
+        if printerBusy == False:
+            if collageCreated == True:
+                if self.photo.source != collageNameSmall:
+                    self.photo.source = collageNameSmall
+                else:
+                    if collageTime >= collageTimeout:
+                        self.photo.source = logoName
+                        collageCreated = False
+            elif collageCreated == False:
+                if self.photo.source != logoName:
+                    self.photo.source = logoName	
+        elif printerBusy == True:
+            if self.photo.source != printingName:
+                self.photo.source = printingName
+            if printerTime >= printerTimeout:
+                self.photo.source = logoName
+                printerBusy = False
 
 if __name__ == '__main__':
     RasPi_Booth().run()
