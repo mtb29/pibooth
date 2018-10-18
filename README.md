@@ -22,4 +22,8 @@ Software required:
 * Kivy
 * Python3
 
-![PiBooth](https://github.com/mtb29/pibooth/blob/master/pibooth.jpg?raw=true)
+![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth.jpg?raw=true)
+![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth2.jpg?raw=true)
+![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth3.jpg?raw=true)
+![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth4.jpg?raw=true)
+![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth5.jpg?raw=true)
