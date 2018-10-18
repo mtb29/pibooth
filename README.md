@@ -10,7 +10,7 @@ Parts list:
 * Raspberry Pi Camera Module V2
 * Raspberry Pi 7" Touchscreen
 * MicroSD Card with Raspbian
-* Canon Selphy CP1200 Photo Printer
+* Canon Selphy CP1300 Photo Printer
 * USB Keyboard
 * USB Mouse
 * 2x 2.5A USB Power Supplies
