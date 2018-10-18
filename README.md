@@ -23,7 +23,7 @@ Software required:
 * Python3
 
 ![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth.jpg?raw=true)
-![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth2.jepg?raw=true)
-![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth3.jepg?raw=true)
-![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth4.jepg?raw=true)
-![PiBooth](https://github.com/mtb29/pibooth/blob/master/photos/pibooth5.jepg?raw=true)
+![PiBooth](https://raw.githubusercontent.com/mtb29/pibooth/master/photos/pibooth2.jpeg
+![PiBooth](https://raw.githubusercontent.com/mtb29/pibooth/master/photos/pibooth3.jpeg)
+![PiBooth](https://raw.githubusercontent.com/mtb29/pibooth/master/photos/pibooth4.jpeg)
+![PiBooth](https://raw.githubusercontent.com/mtb29/pibooth/master/photos/pibooth5.jpeg)
