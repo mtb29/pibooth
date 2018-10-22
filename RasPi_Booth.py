@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # Raspberry Pi photobooth with printer (Canon SELPHY CP1200) and touchscreen (Using Kivy)
 # Captures 3 images and creates them into a collage, and (optionally) prints 2 copies per page
-# Version: 0.4c
+# Version: 0.5
 # Programmar: Matthew Brady
 # Designer/Artist: Andrea Brady
 # Woodworker: Nick Natale
@@ -64,18 +64,35 @@ def takePhotos(obj):
     if printerBusy == False and collageCreated == False:
         camera = picamera.PiCamera()
         camera.resolution = (1280, 720)
+        camera.annotate_text_size = 120
+        camera.annotate_foreground = picamera.Color('black')
         camera.start_preview()
-        sleep(10)
+        camera.annotate_text = 'Picture 1 of 3...'
+        sleep(2)
+        for x in range(10,0,-1):
+            camera.annotate_text = str(x)
+            sleep(1)
+        camera.annotate_text = ''
         camera.capture(photoOne)
         photoName = time.strftime("%Y_%m_%d_%H_%M_%S")
         copyfile(photoOne, saveDir + "/" + photoName + photoExt)
         camera.start_preview()
-        sleep(5)
+        camera.annotate_text = 'Picture 2 of 3...'
+        sleep(2)
+        for x in range(5,0,-1):
+            camera.annotate_text = str(x)
+            sleep(1)
+        camera.annotate_text = ''
         camera.capture(photoTwo)
         photoName = time.strftime("%Y_%m_%d_%H_%M_%S")
         copyfile(photoTwo, saveDir + "/" + photoName + photoExt)
         camera.start_preview()
-        sleep(5)
+        camera.annotate_text = 'Picture 3 of 3...'
+        sleep(2)
+        for x in range(5,0,-1):
+            camera.annotate_text = str(x)
+            sleep(1)
+        camera.annotate_text = ''
         camera.capture(photoThree)
         photoName = time.strftime("%Y_%m_%d_%H_%M_%S")
         copyfile(photoThree, saveDir + "/" + photoName + photoExt)
@@ -115,8 +132,11 @@ def printCollage(obj):
             conn.printFile(printerName, photoDir + collageName, "RasPi_Booth", {'fit-to-page':'True'})
             printerTimeout = 60
         else:
-            conn.printFile(printerName, photoDir + collageName, "RasPi_Booth", {'fit-to-page':'True', 'copies':'2'})
-            printerTimeout = 120
+            #conn.printFile(printerName, photoDir + collageName, "RasPi_Booth", {'fit-to-page':'True', 'copies':'2'})
+            conn.printFile(printerName, photoDir + collageName, "RasPi_Booth", {'fit-to-page':'True'})
+            printerTimeout = 110
+            sleep(10)
+            conn.printFile(printerName, photoDir + collageName, "RasPi_Booth", {'fit-to-page':'True'})
             
         logging.info('Function printCollage completed.')
 
